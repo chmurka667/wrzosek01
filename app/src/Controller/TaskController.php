@@ -7,6 +7,8 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Service\TaskService;
+use App\Service\TaskServiceInterface;
+use App\Repository\TaskRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
