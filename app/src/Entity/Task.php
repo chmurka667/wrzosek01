@@ -92,7 +92,7 @@ class Task
     /**
      * Getter for Id.
      *
-     * @return int|null Id
+     * @return int|nu ll Id
      */
     public function getId(): ?int
     {
