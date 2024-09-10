@@ -76,10 +76,11 @@ class Task
      *
      * @var ArrayCollection<int, Tag>
      */
-    #[Assert\Valid]
     #[ORM\ManyToMany(targetEntity: Tag::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     #[ORM\JoinTable(name: 'tasks_tags')]
-    private $tags;
+    private Collection $tags;
+
+
 
     /**
      * Constructor.

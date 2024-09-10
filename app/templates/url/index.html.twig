@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.url_list'|trans }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.url_list'|trans }}</h1>
+    {% if pagination is defined and pagination.items|length %}
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'url.id') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'url.createdAt') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.original_url'|trans, 'url.original_url') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.shortened_url'|trans, 'url.shortened_url') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label_email'|trans, 'url.email') }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for url in pagination.items %}
+                <tr>
+                    <td>{{ url.id }}</td>
+                    <td>{{ url.createdAt|format_date('long') }}</td>
+                    <td>{{ url.original_url }}</td>
+                    <td>{{ url.shortened_url }}</td>
+                    <td>{{ url.email }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+    {% else %}
+        <p>
+            {{ 'message.empty_list'|trans }}
+        </p>
+    {% endif %}
+{% endblock %}

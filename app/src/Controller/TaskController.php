@@ -83,6 +83,7 @@ class TaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->taskService->save($task);
 
+
             $this->addFlash(
                 'success',
                 $this->translator->trans('message.created_successfully')

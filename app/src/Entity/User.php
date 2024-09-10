@@ -7,6 +7,8 @@ namespace App\Entity;
 
 use App\Entity\Enum\UserRole;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -56,6 +58,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string')]
     #[Assert\NotBlank]
     private ?string $password;
+
+    /**
+     * @var Collection<int, Url>
+     */
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Url::class)]
+    private Collection $uRLs;
+
+    public function __construct()
+    {
+        $this->uRLs = new ArrayCollection();
+    }
 
     /**
      * Getter for id.
@@ -177,5 +190,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, URL>
+     */
+    public function getURLs(): Collection
+    {
+        return $this->uRLs;
+    }
+
+    public function addURL(URL $uRL): static
+    {
+        if (!$this->uRLs->contains($uRL)) {
+            $this->uRLs->add($uRL);
+            $uRL->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeURL(URL $uRL): static
+    {
+        if ($this->uRLs->removeElement($uRL)) {
+            // set the owning side to null (unless already changed)
+            if ($uRL->getUsers() === $this) {
+                $uRL->setUsers(null);
+            }
+        }
+
+        return $this;
     }
 }

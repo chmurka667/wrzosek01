@@ -1,0 +1,91 @@
+<?php
+/**
+ * Url service.
+ */
+
+namespace App\Service;
+
+use App\Entity\Url;
+use App\Repository\URLRepository;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use Random\RandomException;
+use Symfony\Component\String\ByteString;
+
+
+/**
+ * Class UrlService.
+ */
+class UrlService implements UrlServiceInterface
+{
+    /**
+     * Items per page.
+     *
+     * Use constants to define configuration options that rarely change instead
+     * of specifying them in app/config/config.yml.
+     * See https://symfony.com/doc/current/best_practices.html#configuration
+     *
+     * @constant int
+     */
+    private const PAGINATOR_ITEMS_PER_PAGE = 10;
+
+    /**
+     * Constructor.
+     *
+     * @param URLRepository     $URLRepository Url repository
+     * @param PaginatorInterface $paginator      Paginator
+     */
+    public function __construct(private readonly URLRepository $URLRepository, private readonly PaginatorInterface $paginator)
+    {
+    }
+
+    /**
+     * Get paginated list.
+     *
+     * @param int $page Page number
+     *
+     * @return PaginationInterface<string, mixed> Paginated list
+     */
+    public function getPaginatedList(int $page): PaginationInterface
+    {
+        return $this->paginator->paginate(
+            $this->URLRepository->queryAll(),
+            $page,
+            self::PAGINATOR_ITEMS_PER_PAGE
+        );
+    }
+
+    /**
+     * Save entity.
+     *
+     * @param Url $url Url entity
+     */
+    public function save(Url $url): void
+    {
+        $this->URLRepository->save($url);
+    }
+
+    /**
+     * Delete entity.
+     *
+     * @param Url $url Url entity
+     */
+    public function delete(Url $url): void
+    {
+        $this->URLRepository->delete($url);
+    }
+
+    /**
+     * @throws RandomException
+     */
+    public function generateUniqueShortUrl(string $host): string
+    {
+        do {
+            $shortenedUrl = $host . '/' . bin2hex(random_bytes(3));
+            $existingUrl = $this->URLRepository->findOneBy(['shortened_url' => $shortenedUrl]);
+        } while ($existingUrl);
+
+        return $shortenedUrl;
+    }
+
+}

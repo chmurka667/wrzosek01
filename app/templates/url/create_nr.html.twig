@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Shorten URL{% endblock %}
+
+{% block body %}
+    <form method="post" action="{{ path('url_create_logged') }}">
+        <h1 class="h3 mb-3 font-weight-normal">Create Shortened URL</h1>
+
+        <label for="inputUrl">URL to Shorten</label>
+        <input type="url" name="url" id="inputUrl" class="form-control" required>
+
+        <button class="btn btn-lg btn-primary" type="submit">Create Link</button>
+    </form>
+{% endblock %}
