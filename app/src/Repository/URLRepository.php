@@ -78,4 +78,9 @@ class URLRepository extends ServiceEntityRepository
     {
         return $queryBuilder ?? $this->createQueryBuilder('url');
     }
+
+    public function findByShortenedUrl(string $shortened_url): ?Url
+    {
+        return $this->findOneBy(['shortened_url' => $shortened_url]);
+    }
 }

@@ -7,6 +7,7 @@ namespace App\Service;
 
 use App\Entity\Url;
 use App\Repository\URLRepository;
+use Doctrine\ORM\Mapping\Entity;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Random\RandomException;
@@ -88,4 +89,10 @@ class UrlService implements UrlServiceInterface
         return $shortenedUrl;
     }
 
+    public function findByShortenedUrl(string $slug, string $host): Entity
+    {
+        $shortenedUrl = $host . '/' . $slug;
+        $shortenedUrlPick = $this->URLRepository->findOneBy(['shortened_url' => $shortenedUrl]);
+        return $shortenedUrlPick;
+    }
 }

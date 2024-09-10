@@ -37,4 +37,6 @@ interface UrlServiceInterface
     public function delete(Url $url): void;
 
     public function generateUniqueShortUrl(string $host): string;
+
+    public function findByShortenedUrl(string $slug, string $host);
 }

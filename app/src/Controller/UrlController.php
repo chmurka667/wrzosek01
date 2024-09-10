@@ -10,7 +10,6 @@ use App\Form\Type\UrlType;
 use App\Repository\URLRepository;
 use App\Service\UrlServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Random\RandomException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +22,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class UrlController.
  */
-#[Route('/url')]
+#[Route('/')]
 class UrlController extends AbstractController
 {
     /**
@@ -185,5 +184,18 @@ class UrlController extends AbstractController
                 'url' => $url,
             ]
         );
+    }
+
+    #[Route('/{slug}', name: 'redirect_url')]
+    public function redirectUrl(Request $request, string $slug): Response
+    {
+        $host = $request->getSchemeAndHttpHost();
+        $url = $this->urlService->findByShortenedUrl($slug, $host);
+
+        if (!$url) {
+            throw $this->createNotFoundException('URL not found');
+        }
+
+        return $this->redirect($url->getOriginalUrl());
     }
 }
