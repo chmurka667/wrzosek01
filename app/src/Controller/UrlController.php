@@ -186,14 +186,4 @@ class UrlController extends AbstractController
             ]
         );
     }
-    private function generateUniqueShortUrl(EntityManagerInterface $entityManager): string
-    {
-        do {
-            $shortenedUrl = bin2hex(random_bytes(3)); // Generates a random 6-character string
-
-            $existingUrl = $entityManager->getRepository(Url::class)->findOneBy(['shortenedUrl' => $shortenedUrl]);
-        } while ($existingUrl);
-
-        return $shortenedUrl;
-    }
 }
