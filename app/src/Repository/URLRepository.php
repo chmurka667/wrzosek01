@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Url;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
@@ -82,5 +83,22 @@ class URLRepository extends ServiceEntityRepository
     public function findByShortenedUrl(string $shortened_url): ?Url
     {
         return $this->findOneBy(['shortened_url' => $shortened_url]);
+    }
+
+    /**
+     * Query urls by user.
+     *
+     * @param User $user User entity
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryByUser(User $user): QueryBuilder
+    {
+        $queryBuilder = $this->queryAll();
+
+        $queryBuilder->andWhere('url.users = :user')
+            ->setParameter('user', $user);
+
+        return $queryBuilder;
     }
 }

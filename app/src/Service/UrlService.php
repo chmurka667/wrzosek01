@@ -6,6 +6,7 @@
 namespace App\Service;
 
 use App\Entity\Url;
+use App\Entity\User;
 use App\Repository\URLRepository;
 use Doctrine\ORM\Mapping\Entity;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -47,10 +48,10 @@ class UrlService implements UrlServiceInterface
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-    public function getPaginatedList(int $page): PaginationInterface
+    public function getPaginatedList(int $page, User $user): PaginationInterface
     {
         return $this->paginator->paginate(
-            $this->URLRepository->queryAll(),
+            $this->URLRepository->queryByUser($user),
             $page,
             self::PAGINATOR_ITEMS_PER_PAGE
         );
@@ -95,4 +96,6 @@ class UrlService implements UrlServiceInterface
         $shortenedUrlPick = $this->URLRepository->findOneBy(['shortened_url' => $shortenedUrl]);
         return $shortenedUrlPick;
     }
+
+
 }

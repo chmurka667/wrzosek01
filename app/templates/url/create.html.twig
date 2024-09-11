@@ -3,10 +3,13 @@
 {% block title %}Shorten URL{% endblock %}
 
 {% block body %}
-    <form method="post" action="{{ path('url_create_logged') }}">
+    <form method="post" action="{{ path('url_create') }}">
         <h1 class="h3 mb-3 font-weight-normal">Create Shortened URL</h1>
-        <label for="email">Email</label>
-        <input type="email" name="email2" id="email" class="form-control" required>
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        {% else %}
+            <label for="email">Email</label>
+            <input type="email" name="email2" id="email" class="form-control" required>
+        {% endif %}
 
         <label for="inputUrl">URL to Shorten</label>
         <input type="url" name="url" id="inputUrl" class="form-control" required>

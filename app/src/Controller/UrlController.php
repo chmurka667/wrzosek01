@@ -18,6 +18,8 @@ use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Security\Core\Security;
+
 
 /**
  * Class UrlController.
@@ -33,8 +35,7 @@ class UrlController extends AbstractController
      */
     public function __construct(
         private readonly UrlServiceInterface $urlService,
-        private readonly TranslatorInterface $translator
-    ) {
+        private readonly TranslatorInterface $translator) {
     }
 
     /**
@@ -47,7 +48,11 @@ class UrlController extends AbstractController
     #[Route(name: 'url_index', methods: ['GET'])]
     public function index(#[MapQueryParameter] int $page = 1): Response
     {
-        $pagination = $this->urlService->getPaginatedList($page);
+        $user =
+        $pagination = $this->urlService->getPaginatedList(
+            $page,
+            $this->getUser()
+        );
 
         return $this->render('url/index.html.twig', ['pagination' => $pagination]);
     }
@@ -74,10 +79,9 @@ class UrlController extends AbstractController
      * @throws RandomException
      */
     #[Route('/create', name: 'url_create', methods: ['GET', 'POST'])]
-    public function create(Request $request, EntityManagerInterface $entityManager, UrlGeneratorInterface $router): Response
+    public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         if ($request->isMethod('POST')) {
-            $email = $request->request->get('email2');
             $originalUrl = $request->request->get('url');
 
             if (!filter_var($originalUrl, FILTER_VALIDATE_URL)) {
@@ -86,8 +90,15 @@ class UrlController extends AbstractController
             }
 
             $url = new Url();
-            $url->setEmail($email);
             $url->setOriginalUrl($originalUrl);
+            if($this->getUser() != NULL) {
+                $url->setUsers($this->getUser());
+                $url->setEmail($this->getUser()->getEmail());
+            }
+            else {
+                $email = $request->request->get('email2');
+                $url->setEmail($email);
+            }
 
             $host = $request->getSchemeAndHttpHost();
             $shortenedUrl = $this->urlService->generateUniqueShortUrl($host);
@@ -102,8 +113,12 @@ class UrlController extends AbstractController
         }
 
         return $this->render('url/create.html.twig');
+    } /**
+    #[Route(path: '/create_logged', name: 'create_logged')]
+    public function create_logged(Request $request): Response
+    {
+        return $this->render('url/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
-
     /**
      * Edit action.
      *
