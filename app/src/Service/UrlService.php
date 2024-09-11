@@ -89,7 +89,7 @@ class UrlService implements UrlServiceInterface
         return $shortenedUrl;
     }
 
-    public function findByShortenedUrl(string $slug, string $host): Entity
+    public function findByShortenedUrl(string $slug, string $host): Url
     {
         $shortenedUrl = $host . '/' . $slug;
         $shortenedUrlPick = $this->URLRepository->findOneBy(['shortened_url' => $shortenedUrl]);
