@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Create User{% endblock %}
+{% block title %}{{ 'label.administrator_edit'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>label.administrator_edit</h1>
+    <h1>{{ 'label.administrator_edit'|trans }}</h1>
 
     {{ form_start(form) }}
     {{ form_row(form.email) }}
     {{ form_row(form.password) }}
 
-    <button class="btn btn-primary" type="submit">Create</button>
+    <button class="btn btn-primary" type="submit">{{ 'label.create'|trans }}</button>
     {{ form_end(form) }}
 {% endblock %}

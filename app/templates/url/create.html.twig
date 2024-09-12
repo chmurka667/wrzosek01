@@ -8,13 +8,13 @@
     <h1>{{ 'title.url_create'|trans }}</h1>
     {{ form_start(form) }}
     {{ form_row(form.email, {
-        label: 'email'
-    }) }}
+        label:  {{ 'label.email'|trans }}
+        }) }}
     {{ form_row(form.original_url, {
-        label: 'original_url'
+        label: {{ 'label.original_url'|trans }}
     }) }}
     {{ form_row(form.tags, {
-        label: 'tags'
+        label: {{ 'label.tags'|trans }}
     }) }}
     <div class="form-group row float-sm-right">
         <input type="submit" value="{{ 'action.save'|trans }}" class="btn btn-primary"/>

@@ -51,4 +51,14 @@ class TagService implements TagServiceInterface
     {
         $this->tagRepository->save($tag);
     }
+    /**
+     * Delete entity.
+     *
+     * @param Tag $tag Tag entity
+     */
+    public function delete(Tag $tag): void
+    {
+        $this->tagRepository->delete($tag);
+    }
+
 }

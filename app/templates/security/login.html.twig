@@ -14,26 +14,26 @@
             </div>
         {% endif %}
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="inputEmail">Email</label>
+        <h1 class="h3 mb-3 font-weight-normal">{{ 'title.Please_sign_in'|trans }}</h1>
+        <label for="inputEmail">{{ 'label.email'|trans }}</label>
         <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
 
-        <label for="inputPassword">Password</label>
+        <label for="inputPassword">{ 'label.password'|trans }}</label>
         <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        <button class="btn btn-lg btn-primary" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary" type="submit">{ 'label.log_in'|trans }}</button>
     </form>
 
     <form method="post" action="{{ path('url_create') }}">
         <h1 class="h3 mb-3 font-weight-normal">Create Shortened URL</h1>
-        <label for="email2">Email</label>
+        <label for="email2">{{ 'label.email'|trans }}</label>
         <input type="email" name="email2" id="email2" class="form-control" required>
 
-        <label for="inputUrl">URL to Shorten</label>
+        <label for="inputUrl">{{ 'label.url_to_shorten'|trans }}<</label>
         <input type="url" name="url" id="inputUrl" class="form-control" required>
 
-        <button class="btn btn-lg btn-primary" type="submit">Create Link</button>
+        <button class="btn btn-lg btn-primary" type="submit">{{ 'label.create_link'|trans }}<</button>
     </form>
 {% endblock %}
