@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -40,4 +41,21 @@ class TagRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function findOneByTitle(string $title)
+    {
+        return $this->findOneBy(['title' => $title]);
+    }
+
+    /**
+     * Save entity.
+     *
+     * @param Tag $tag Tag entity
+     * @throws ORMException
+     */
+    public function save(Tag $tag): void
+    {
+        assert($this->_em instanceof EntityManager);
+        $this->_em->persist($tag);
+        $this->_em->flush();
+    }
 }

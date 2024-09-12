@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Entity\Category;
 use App\Entity\Task;
 use App\Entity\Tag;
+use App\Repository\TagRepository;
 use App\Repository\TaskRepository;
 use App\Repository\CategoryRepository;
 use App\Service\CategoryServiceInterface;
@@ -22,6 +23,14 @@ use Knp\Component\Pager\PaginatorInterface;
 class TagService implements TagServiceInterface
 {
     /**
+     * Constructor.
+     *
+     * @param TagRepository $tagRepository Tag repository
+     */
+    public function __construct(private readonly TagRepository $tagRepository)
+    {
+    }
+    /**
      * Find by title.
      *
      * @param string $title Tag title
@@ -31,5 +40,15 @@ class TagService implements TagServiceInterface
     public function findOneByTitle(string $title): ?Tag
     {
         return $this->tagRepository->findOneByTitle($title);
+    }
+
+    /**
+     * Save entity.
+     *
+     * @param Tag $tag Tag entity
+     */
+    public function save(Tag $tag): void
+    {
+        $this->tagRepository->save($tag);
     }
 }

@@ -7,6 +7,8 @@ namespace App\Service;
 
 use App\Entity\Url;
 use App\Entity\User;
+use App\Entity\Tag;
+use App\Repository\TagRepository;
 use App\Repository\URLRepository;
 use Doctrine\ORM\Mapping\Entity;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -35,9 +37,10 @@ class UrlService implements UrlServiceInterface
      * Constructor.
      *
      * @param URLRepository     $URLRepository Url repository
+     * @param TagRepository $tagRepository Tag repository
      * @param PaginatorInterface $paginator      Paginator
      */
-    public function __construct(private readonly URLRepository $URLRepository, private readonly PaginatorInterface $paginator)
+    public function __construct(private readonly URLRepository $URLRepository, private readonly PaginatorInterface $paginator, private readonly TagRepository $tagRepository)
     {
     }
 
@@ -106,5 +109,16 @@ class UrlService implements UrlServiceInterface
         return $shortenedUrlPick;
     }
 
+    /**
+     * Find by title.
+     *
+     * @param string $title Tag title
+     *
+     * @return Tag|null Tag entity
+     */
+    public function findOneByTitle(string $title): ?Tag
+    {
+        return $this->tagRepository->findOneByTitle($title);
+    }
 
 }

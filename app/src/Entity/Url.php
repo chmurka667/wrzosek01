@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\URLRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: URLRepository::class)]
 class Url
@@ -22,8 +24,14 @@ class Url
     #[ORM\Column(length: 255)]
     public ?string $shortened_url = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $createdAt = null;
+    /**
+     * Created at.
+     *
+     * @var DateTimeImmutable|null
+     */
+    #[ORM\Column(type: 'datetime_immutable')]
+    #[Gedmo\Timestampable(on: 'create')]
+    private ?\DateTimeImmutable $createdAt;
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
@@ -47,7 +55,6 @@ class Url
 
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
         $this->tags = new ArrayCollection();
     }
 

@@ -5,6 +5,7 @@
 
 namespace App\Service;
 
+use App\Entity\Tag;
 use App\Entity\Url;
 use App\Entity\User;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -40,5 +41,14 @@ interface UrlServiceInterface
     public function generateUniqueShortUrl(string $host): string;
 
     public function findByShortenedUrl(string $slug, string $host);
+
+    /**
+     * Find by title.
+     *
+     * @param string $title Tag title
+     *
+     * @return Tag|null Tag entity
+     */
+    public function findOneByTitle(string $title): ?Tag;
 
 }
