@@ -7,6 +7,7 @@ namespace App\Controller;
 
 use App\Entity\Url;
 use App\Form\Type\UrlType;
+use App\Form\Type\UrlTypeAdmin;
 use App\Repository\URLRepository;
 use App\Service\UrlServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -117,7 +118,7 @@ class UrlController extends AbstractController
     public function edit(Request $request, Url $url): Response
     {
         $form = $this->createForm(
-            UrlType::class,
+            UrlTypeAdmin::class,
             $url,
             [
                 'method' => 'POST',
