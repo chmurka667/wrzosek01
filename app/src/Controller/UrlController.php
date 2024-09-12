@@ -6,10 +6,12 @@
 namespace App\Controller;
 
 use App\Entity\Url;
+use App\Entity\User;
 use App\Form\Type\UrlType;
 use App\Form\Type\UrlTypeAdmin;
-use App\Repository\URLRepository;
+use App\Form\Type\UserType;
 use App\Service\UrlServiceInterface;
+use App\Service\UserServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -17,9 +19,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 
 
 /**
@@ -36,6 +38,7 @@ class UrlController extends AbstractController
      */
     public function __construct(
         private readonly UrlServiceInterface $urlService,
+        private readonly UserServiceInterface $userService,
         private readonly TranslatorInterface $translator) {
     }
 
@@ -202,4 +205,36 @@ class UrlController extends AbstractController
 
         return $this->redirect($url->getOriginalUrl());
     }
+    #[Route('/admin/{id}/edit', name: 'admin_edit')]
+    public function admin(Request $request, User $user, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $form = $this->createForm(
+        UserType::class,
+        $user,
+        [
+            'method' => 'POST',
+            'action' => $this->generateUrl('admin_edit', ['id' => $user->getId()]),
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('password')->getData()) {
+                $hashedPassword = $passwordHasher->hashPassword(
+                    $user,
+                    $form->get('password')->getData()
+                );
+                $user->setPassword($hashedPassword);
+            }
+        $this->userService->save($user);
+        $this->addFlash('success', 'Admin details updated successfully.');
+
+        return $this->redirectToRoute('url_index');
+
+        }
+        return $this->render('url/admin.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+
 }
