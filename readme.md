@@ -1,92 +1,39 @@
-# Docker Symfony Starter Kit
+Aplikacja do przechowywania i zarządzania notesem oraz listą rzeczy do zrobienia
+Wymagane
+Docker i Docker compose
+Utworzenie projektu
+Kopiujemy do katalogu projekt
 
-Starter kit is based on [The perfect kit starter for a Symfony 4 project with Docker and PHP 7.2](https://medium.com/@romaricp/the-perfect-kit-starter-for-a-symfony-4-project-with-docker-and-php-7-2-fda447b6bca1).
+git clone https://github.com/chmurka667/wrzosek01
+W PhpStorm naciskamy open i otwieramy projekt
 
-## What is inside?
+Instalacja
+W terminalu, bedąc w ścieżce projektu wpisujemy
 
-* Apache 2.4.57 (Debian)
-* PHP 8.3 FPM
-* MySQL 8.3.1
-* NodeJS LTS (latest)
-* Composer
-* Symfony CLI 
-* xdebug
-* djfarrelly/maildev
+docker-compose build
+Następnie uruchamiamy kontenery
 
-## Requirements
+docker-compose up -d
+Potem, wchodzimy do kontenera dockera php
 
-* Install [Docker](https://www.docker.com/products/docker-desktop) and [Docker Compose](https://docs.docker.com/compose/install) on your machine 
-
-## Installation
-
-* (optional) Add 
-
-```bash
-127.0.0.1   symfony.local
-```
-in your `host` file.
-
-* Run `build-env.sh` (or `build-env.ps1` on Windows box)
-
-* Enter the PHP container:
-
-```bash
 docker-compose exec php bash
-```
+i wydajemy polecenia
 
-* To install Symfony LTS inside container execute:
-
-```bash
 cd app
 rm .gitkeep
 git config --global user.email "you@example.com"
-symfony new ../app --version=lts --webapp
+git config --global --add safe.directory /home/wwwroot/app
+symfony new ../app --full --version=5.4
 chown -R dev.dev *
-```
+rm -rf .git
+Połącz sie z daną bazy dockera w pliku '.env'. Trzeba w pliku zmienić linie DATABASE_URL na:
 
-## Container URLs and ports
-
-* Project URL
-
-```bash
-http://localhost:8000
-```
-
-or 
-
-```bash
-http://symfony.local:8000
-```
-
-* MySQL
-
-    * inside container: host is `mysql`, port: `3306`
-    * outside container: host is `localhost`, port: `3307`
-    * passwords, db name are in `docker-compose.yml`
-    
-* djfarrelly/maildev i available from the browser on port `8001`
-
-* xdebug i available remotely on port `9000`
-
-* Database connection in Symfony `.env` file:
-```yaml
 DATABASE_URL=mysql://symfony:symfony@mysql:3306/symfony?serverVersion=5.7
-```
+Ostatecznie:
 
-## Useful commands
+composer install
+bin/console doctrine:migrations:migrate
+bin/console doctrine:fixtures:load
+Aby połączyć się ze symfony w przyglądarce i sprawdzić czy działa przechodzimy do
 
-* `docker-compose up -d` - start containers
-* `docker-compose down` - stop containers
-* `docker-compose exec php bash` - enter into PHP container
-* `docker-compose exec mysql bash` - enter into MySQL container
-* `docker-compose exec apache bash` - enter into Apache2 container
-
-## Troubleshooting
-
-* **2024.05.11 - ERROR: for apache  'ContainerConfig'**
-
-  Error `ERROR: for apache  'ContainerConfig'` after `docker-compose up -d` execution can be solved `docker compose up -d --force-recreate`
-
-  
-
-
+http://localhost:8000
