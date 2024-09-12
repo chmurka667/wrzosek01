@@ -8,49 +8,71 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-#[ORM\Entity(repositoryClass: TagRepository::class)]
+/**
+ * @ORM\Entity(repositoryClass=TagRepository::class)
+ */
 class Tag
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    /**
+     * @var int|null
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column
+     */
     private ?int $id = null;
 
     /**
-     * Created at.
-     *
      * @var DateTimeImmutable|null
+     *
+     * @ORM\Column(type="datetime_immutable")
+     * @Gedmo\Timestampable(on="create")
      */
-    #[ORM\Column(type: 'datetime_immutable')]
-    #[Gedmo\Timestampable(on: 'create')]
     private ?\DateTimeImmutable $createdAt;
 
     /**
-     * Updated at.
-     *
      * @var DateTimeImmutable|null
+     *
+     * @ORM\Column(type="datetime_immutable")
+     * @Gedmo\Timestampable(on="update")
      */
-    #[ORM\Column(type: 'datetime_immutable')]
-    #[Gedmo\Timestampable(on: 'update')]
     private ?\DateTimeImmutable $updatedAt;
 
-    #[ORM\Column(length: 64)]
-    #[Gedmo\Slug(fields: ['title'])]
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(length=64)
+     * @Gedmo\Slug(fields={"title"})
+     */
     private ?string $slug = null;
 
-    #[ORM\Column(length: 64)]
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(length=64)
+     */
     private ?string $title = null;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
+    /**
+     * @param \DateTimeInterface $createdAt
+     * @return static
+     */
     public function setCreatedAt(\DateTimeInterface $createdAt): static
     {
         $this->createdAt = $createdAt;
@@ -58,11 +80,18 @@ class Tag
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
+    /**
+     * @param \DateTimeInterface $updatedAt
+     * @return static
+     */
     public function setUpdatedAt(\DateTimeInterface $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
@@ -70,11 +99,18 @@ class Tag
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
+    /**
+     * @param string $slug
+     * @return static
+     */
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
@@ -82,11 +118,18 @@ class Tag
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
+    /**
+     * @param string $title
+     * @return static
+     */
     public function setTitle(string $title): static
     {
         $this->title = $title;

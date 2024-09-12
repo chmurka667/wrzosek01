@@ -191,6 +191,14 @@ class UrlController extends AbstractController
         );
     }
 
+    /**
+     * Redirect action.
+     *
+     * @param Request $request HTTP request
+     * @param string $slug Shortened URL slug
+     *
+     * @return Response HTTP response
+     */
     #[Route('/{slug}', name: 'redirect_url')]
     public function redirectUrl(Request $request, string $slug): Response
     {
@@ -205,6 +213,16 @@ class UrlController extends AbstractController
 
         return $this->redirect($url->getOriginalUrl());
     }
+
+    /**
+     * Admin action.
+     *
+     * @param Request $request HTTP request
+     * @param User $user User entity
+     * @param UserPasswordHasherInterface $passwordHasher Password hasher service
+     *
+     * @return Response HTTP response
+     */
     #[Route('/admin/{id}/edit', name: 'admin_edit')]
     public function admin(Request $request, User $user, UserPasswordHasherInterface $passwordHasher): Response
     {
@@ -226,7 +244,7 @@ class UrlController extends AbstractController
                 $user->setPassword($hashedPassword);
             }
         $this->userService->save($user);
-        $this->addFlash('success', 'Admin details updated successfully.');
+        $this->addFlash('success', $this->translator->trans('message.edited_successfully'));
 
         return $this->redirectToRoute('url_index');
 
