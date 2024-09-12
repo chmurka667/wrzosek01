@@ -6,6 +6,7 @@ use App\Entity\Url;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -44,6 +45,7 @@ class URLRepository extends ServiceEntityRepository
      * Save entity.
      *
      * @param Url $url Url entity
+     * @throws ORMException
      */
     public function save(Url $url): void
     {
@@ -100,5 +102,14 @@ class URLRepository extends ServiceEntityRepository
             ->setParameter('user', $user);
 
         return $queryBuilder;
+    }
+
+    public function queryByClicks(): QueryBuilder
+    {
+        return $this->getOrCreateQueryBuilder()
+            ->select(
+                'partial url.{id, createdAt, original_url, shortened_url, email, clicks}'
+            )
+            ->orderBy('url.createdAt', 'DESC');
     }
 }

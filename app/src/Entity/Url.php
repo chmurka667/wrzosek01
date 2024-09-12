@@ -30,6 +30,9 @@ class Url
     #[ORM\JoinColumn(nullable: true)]
     private ?User $users = null;
 
+    #[ORM\Column]
+    private int $clicks = 0;
+
 
     public function __construct()
     {
@@ -99,6 +102,18 @@ class Url
     public function setUsers(?User $users): static
     {
         $this->users = $users;
+
+        return $this;
+    }
+
+    public function getClicks(): ?int
+    {
+        return $this->clicks;
+    }
+
+    public function setClicks(int $clicks): static
+    {
+        $this->clicks = $clicks;
 
         return $this;
     }

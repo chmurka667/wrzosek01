@@ -48,13 +48,22 @@ class UrlService implements UrlServiceInterface
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-    public function getPaginatedList(int $page, User $user): PaginationInterface
+    public function getPaginatedList(int $page, User $user = null): PaginationInterface
     {
-        return $this->paginator->paginate(
-            $this->URLRepository->queryByUser($user),
-            $page,
-            self::PAGINATOR_ITEMS_PER_PAGE
-        );
+        if ($user === null || $user->getId() === null || in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+            return $this->paginator->paginate(
+                $this->URLRepository->queryByClicks(),
+                $page,
+                self::PAGINATOR_ITEMS_PER_PAGE
+            );
+        }
+        else {
+            return $this->paginator->paginate(
+                $this->URLRepository->queryByUser($user),
+                $page,
+                self::PAGINATOR_ITEMS_PER_PAGE
+            );
+        }
     }
 
     /**

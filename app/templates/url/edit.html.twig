@@ -1,17 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ 'title.url_create'|trans }}
+    {{ 'title.url_edit'|trans }}
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.url_create'|trans }}</h1>
+    <h1>{{ 'title.url_edit'|trans }}</h1>
     {{ form_start(form) }}
-    {{ form_row(form.email, {
-        label: 'email'
-    }) }}
     {{ form_row(form.original_url, {
         label: 'original_url'
+    }) }}
+    {{ form_row(form.shortened_url, {
+        label: 'shortened_url'
     }) }}
     <div class="form-group row float-sm-right">
         <input type="submit" value="{{ 'action.save'|trans }}" class="btn btn-primary"/>
@@ -21,6 +21,5 @@
             {{ 'action.back_to_list'|trans }}
         </a>
     </div>
-    {{ form_end(form)}}
-
+    {{ form_end(form, {'render_rest': false}) }}
 {% endblock %}

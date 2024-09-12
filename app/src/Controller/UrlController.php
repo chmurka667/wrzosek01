@@ -48,7 +48,6 @@ class UrlController extends AbstractController
     #[Route(name: 'url_index', methods: ['GET'])]
     public function index(#[MapQueryParameter] int $page = 1): Response
     {
-        $user =
         $pagination = $this->urlService->getPaginatedList(
             $page,
             $this->getUser()
@@ -81,43 +80,30 @@ class UrlController extends AbstractController
     #[Route('/create', name: 'url_create', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
-        if ($request->isMethod('POST')) {
-            $originalUrl = $request->request->get('url');
+        $url = new Url();
+        $form = $this->createForm(
+            UrlType::class,
+            $url
+        );
 
-            if (!filter_var($originalUrl, FILTER_VALIDATE_URL)) {
-                $this->addFlash('error', 'Invalid URL format.');
-                return $this->redirectToRoute('url_create');
-            }
+        $form->handleRequest($request);
 
-            $url = new Url();
-            $url->setOriginalUrl($originalUrl);
-            if($this->getUser() != NULL) {
-                $url->setUsers($this->getUser());
-                $url->setEmail($this->getUser()->getEmail());
-            }
-            else {
-                $email = $request->request->get('email2');
-                $url->setEmail($email);
-            }
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $host = $request->getSchemeAndHttpHost();
             $shortenedUrl = $this->urlService->generateUniqueShortUrl($host);
             $url->setShortenedUrl($shortenedUrl);
+            $this->urlService->save($url);
 
-            $entityManager->persist($url);
-            $entityManager->flush();
-
-            $this->addFlash('success', "Shortened URL created! Here it is: $shortenedUrl");
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.created_successfully')
+            );
 
             return $this->redirectToRoute('url_index');
         }
 
-        return $this->render('url/create.html.twig');
-    } /**
-    #[Route(path: '/create_logged', name: 'create_logged')]
-    public function create_logged(Request $request): Response
-    {
-        return $this->render('url/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('url/create.html.twig',  ['form' => $form->createView(),'url' => $url]);
     }
     /**
      * Edit action.
@@ -127,14 +113,14 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}/edit', name: 'url_edit', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'PUT'])]
+    #[Route('/{id}/edit', name: 'url_edit', requirements: ['id' => '[1-9]\d*'], methods: ['GET', 'POST'])]
     public function edit(Request $request, Url $url): Response
     {
         $form = $this->createForm(
             UrlType::class,
             $url,
             [
-                'method' => 'PUT',
+                'method' => 'POST',
                 'action' => $this->generateUrl('url_edit', ['id' => $url->getId()]),
             ]
         );
@@ -210,6 +196,8 @@ class UrlController extends AbstractController
         if (!$url) {
             throw $this->createNotFoundException('URL not found');
         }
+        $url->setClicks($url->getClicks() + 1);
+        $this->urlService->save($url);
 
         return $this->redirect($url->getOriginalUrl());
     }

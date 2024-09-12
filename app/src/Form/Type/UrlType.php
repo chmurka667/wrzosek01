@@ -33,7 +33,7 @@ class UrlType extends AbstractType
             'email',
             TextType::class,
             [
-                'label' => 'label.email',
+                'label' => 'email',
                 'required' => true,
                 'attr' => ['max_length' => 255],
             ]);
@@ -41,7 +41,7 @@ class UrlType extends AbstractType
             'original_url',
             TextType::class,
             [
-                'label' => 'label.url',
+                'label' => 'original_url',
                 'required' => true,
                 'attr' => ['max_length' => 255],
             ]);
