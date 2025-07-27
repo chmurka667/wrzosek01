@@ -6,15 +6,17 @@
 
 {% block body %}
     <h1>{{ 'title.url_create'|trans }}</h1>
+
     {{ form_start(form) }}
+
     {{ form_row(form.email, {
-        label:  {{ 'label.email'|trans }}
-        }) }}
+        label: 'label.email'|trans
+    }) }}
     {{ form_row(form.original_url, {
-        label: {{ 'label.original_url'|trans }}
+        label: 'label.original_url'|trans
     }) }}
     {{ form_row(form.tags, {
-        label: {{ 'label.tags'|trans }}
+        label: 'label.tags'|trans
     }) }}
     <div class="form-group row float-sm-right">
         <input type="submit" value="{{ 'action.save'|trans }}" class="btn btn-primary"/>
