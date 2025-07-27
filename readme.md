@@ -1,5 +1,4 @@
-Aplikacja do przechowywania i zarządzania notesem oraz listą rzeczy do zrobienia
-Wymagane
+Aplikacja do tworzenia skrótów URl
 Docker i Docker compose
 Utworzenie projektu
 Kopiujemy do katalogu projekt
