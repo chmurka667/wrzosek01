@@ -23,7 +23,9 @@ RUN docker-php-source extract && \
     docker-php-source delete
 
 # Install Intl
-RUN docker-php-source extract && \
+RUN apt-get update && \
+    apt-get install -y libicu-dev && \
+    docker-php-source extract && \
     docker-php-ext-configure intl && \
     docker-php-ext-install intl && \
     docker-php-source delete

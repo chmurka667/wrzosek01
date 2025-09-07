@@ -30,6 +30,10 @@
         <source>message.record_not_found</source>
         <target>Nie znaleziono rekordu.</target>
       </trans-unit>
+      <trans-unit id="message.url_not_found">
+        <source>message.url_not_found</source>
+        <target>Nie znaleziono pasującego adresu URL.</target>
+      </trans-unit>
       <trans-unit id="title.record_list">
         <source>title.record_list</source>
         <target>Lista rekordów</target>
@@ -88,7 +92,7 @@
       </trans-unit>
       <trans-unit id="action.back_to_list">
         <source>action.back_to_list</source>
-        <target>Powrót do listy</target>
+        <target>Powrót</target>
       </trans-unit>
       <trans-unit id="title.tag_create">
         <source>title.tag_create</source>
@@ -166,6 +170,14 @@
         <source>label_show</source>
         <target>Pokaż</target>
       </trans-unit>
+      <trans-unit id="label.originalUrl">
+        <source>label.originalUrl</source>
+        <target>Oryginalny URL</target>
+      </trans-unit>
+      <trans-unit id="Email">
+        <source>Email</source>
+        <target>Email</target>
+      </trans-unit>
       <trans-unit id="No tags">
         <source>No tags</source>
         <target>Brak tagów</target>
@@ -174,10 +186,10 @@
         <source>title.url_details</source>
         <target>Szczegóły URL</target>
       </trans-unit>
-      <trans-unit id="label.originalUrl">
-        <source>label.originalUrl</source>
-        <target>Oryginalny URL</target>
-      </trans-unit>
+            <trans-unit id="action.back"><source>action.back</source><target>Wstecz</target></trans-unit>
+            <trans-unit id="label.user_info"><source>label.user_info</source><target>Informacje o użytkowniku</target></trans-unit>
+            <trans-unit id="label.id_short"><source>label.id_short</source><target>ID</target></trans-unit>
+
       <trans-unit id="label.shortenedUrl">
         <source>label.shortenedUrl</source>
         <target>Skrócony URL</target>
@@ -209,6 +221,183 @@
             <trans-unit id="title.create">
               <source>title.create</source>
               <target>Utwórz</target>
+            </trans-unit>
+            <trans-unit id="validators.password_required">
+              <source>Please enter a password</source>
+              <target>Proszę podać hasło</target>
+            </trans-unit>
+            <trans-unit id="validators.password_min_length">
+              <source>Your password should be at least {{ limit }} characters</source>
+              <target>Hasło musi mieć co najmniej {{ limit }} znaków</target>
+            </trans-unit>
+            <trans-unit id="validators.email_exists">
+              <source>There is already an account with this email</source>
+              <target>Konto z tym adresem e-mail już istnieje</target>
+            </trans-unit>
+            <trans-unit id="message.daily_limit_exceeded">
+              <source>message.daily_limit_exceeded</source>
+              <target>Przekroczono dzienny limit</target>
+            </trans-unit>
+            <trans-unit id="message.url_blocked_24h">
+              <source>message.url_blocked_24h</source>
+              <target>Ten adres URL został zablokowany na 24 godziny</target>
+            </trans-unit>
+            <trans-unit id="label.YouAreLoggedInAs">
+              <source>label.YouAreLoggedInAs</source>
+              <target>Jesteś zalogowany jako </target>
+            </trans-unit>
+            <trans-unit id="action.editProfile">
+              <source>action.editProfile</source>
+              <target>Edytuj profil</target>
+            </trans-unit>
+          <trans-unit id="message.invalidUrl">
+            <source>message.invalidUrl</source>
+            <target>Proszę wpisać URL zaczynający się od https://</target>
+          </trans-unit>
+            <trans-unit id="action.logout">
+              <source>action.logout</source>
+              <target>Wyloguj</target>
+            </trans-unit>
+            <trans-unit id="title.userEdit">
+              <source>title.userEdit</source>
+              <target>Edycja użytkownika</target>
+            </trans-unit>
+            <trans-unit id="title.user_delete">
+              <source>title.user_delete</source>
+              <target>Usuń użytkownika</target>
+            </trans-unit>
+            <trans-unit id="title.user_list">
+              <source>title.user_list</source>
+              <target>Lista użytkowników</target>
+            </trans-unit>
+            <trans-unit id="action.urlsList">
+              <source>action.urlsList</source>
+              <target>Lista adresów URL</target>
+            </trans-unit>
+            <trans-unit id="label.roles">
+              <source>label.roles</source>
+              <target>Role</target>
+            </trans-unit>
+
+      <trans-unit id="label.quick_info"><source>label.quick_info</source><target>Szybkie informacje</target></trans-unit>
+      <trans-unit id="label.short"><source>label.short</source><target>Skrót</target></trans-unit>
+
+      <trans-unit id="message.no_urls_yet"><source>message.no_urls_yet</source><target>Nie utworzono jeszcze żadnych skróconych adresów URL.</target></trans-unit>
+      <trans-unit id="message.no_users_yet"><source>message.no_users_yet</source><target>Nie ma jeszcze żadnych użytkowników</target></trans-unit>
+
+      <trans-unit id="label.clicks_mobile">
+        <source>label.clicks_mobile</source>
+        <target>%count% kliknięć</target>
+      </trans-unit>
+            <trans-unit id="label.password">
+              <source>label.password</source>
+              <target>Hasło</target>
+            </trans-unit>
+            <trans-unit id="label.log_in">
+              <source>label.log_in</source>
+              <target>Zaloguj się</target>
+            </trans-unit>
+            <trans-unit id="action.create_withoout_registering">
+              <source>action.create_withoout_registering</source>
+              <target>Utwórz bez rejestracji</target>
+            </trans-unit>
+            <trans-unit id="action.userList">
+              <source>action.userList</source>
+              <target>Lista użytkowników</target>
+            </trans-unit>
+            <trans-unit id="action.login" resname="action.login">
+              <source>action.login</source>
+              <target>Zaloguj się</target>
+            </trans-unit>
+
+            <trans-unit id="title.back_to_index" resname="title.back_to_index">
+              <source>title.back_to_index</source>
+              <target>Powrót do listy</target>
+            </trans-unit>
+
+            <trans-unit id="label.tag" resname="label.tag">
+              <source>label.tag</source>
+              <target>Tagi</target>
+            </trans-unit>
+
+      <trans-unit id="action.block_24h">
+        <source>action.block_24h</source>
+        <target>Zablokuj URL na 24h</target>
+      </trans-unit>
+      <trans-unit id="form.email.label">
+        <source>form.email.label</source>
+        <target>E-mail</target>
+      </trans-unit>
+
+      <trans-unit id="form.original_url.label">
+        <source>form.original_url.label</source>
+        <target>Oryginalny URL</target>
+      </trans-unit>
+      <trans-unit id="form.original_url.help.readonly_non_admin">
+        <source>form.original_url.help.readonly_non_admin</source>
+        <target>Tylko administratorzy mogą modyfikować oryginalny URL.</target>
+      </trans-unit>
+
+      <trans-unit id="form.shortened_url.label">
+        <source>form.shortened_url.label</source>
+        <target>Skrócony URL</target>
+      </trans-unit>
+      <trans-unit id="form.shortened_url.help.admin_warning">
+        <source>form.shortened_url.help.admin_warning</source>
+        <target>Uwaga: zmiana spowoduje, że istniejące linki przestaną działać.</target>
+      </trans-unit>
+      <trans-unit id="form.shortened_url.help.readonly_non_admin">
+        <source>form.shortened_url.help.readonly_non_admin</source>
+        <target>Skrócony URL nie może być modyfikowany.</target>
+      </trans-unit>
+
+      <trans-unit id="form.tags.label">
+        <source>form.tags.label</source>
+        <target>Tagi</target>
+      </trans-unit>
+      <trans-unit id="form.tags.help.limit_non_privileged">
+        <source>form.tags.help.limit_non_privileged</source>
+        <target>Możesz dodawać/usuwać tylko własne tagi.</target>
+      </trans-unit>
+
+      <trans-unit id="form.created_at.label">
+        <source>form.created_at.label</source>
+        <target>Utworzono</target>
+      </trans-unit>
+      <trans-unit id="form.created_at.help.read_only">
+        <source>form.created_at.help.read_only</source>
+        <target>Znacznik czasu utworzenia (tylko do odczytu)</target>
+      </trans-unit>
+
+          <trans-unit id="Password">
+              <source>Password</source>
+              <target>Hasło</target>
+          </trans-unit>
+
+          <trans-unit id="Role">
+              <source>Role</source>
+              <target>Rola</target>
+          </trans-unit>
+          <trans-unit id="User">
+              <source>User</source>
+              <target>Użytkownik</target>
+          </trans-unit>
+          <trans-unit id="Admin">
+              <source>Admin</source>
+              <target>Administrator</target>
+          </trans-unit>
+      <trans-unit id="url_cannot_be_longer">
+        <source>url_cannot_be_longer</source>
+        <target>Adres URL nie może być dłuższy niż {{ limit }} znaków.</target>
+      </trans-unit>
+
+            <trans-unit id="title.register">
+              <source>title.register</source>
+              <target>Rejestracja</target>
+            </trans-unit>
+            <trans-unit id="action.register">
+              <source>action.register</source>
+              <target>Zarejestruj się</target>
             </trans-unit>
     </body>
   </file>

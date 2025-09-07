@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tag fixtures.
  */
@@ -23,8 +24,8 @@ class TagFixtures extends AbstractBaseFixtures
      */
     public function loadData(): void
     {
-        $this->createMany(20, 'tags', function (int $i) {
-            $tag = new tag();
+        $this->createMany(30, 'tags', function () {
+            $tag = new Tag();
             $tag->setTitle($this->faker->unique()->word);
             $tag->setCreatedAt(
                 DateTimeImmutable::createFromMutable(

@@ -1,13 +1,16 @@
 <?php
+
 /**
  * Url service interface.
  */
 
 namespace App\Service;
 
+use App\Dto\UrlListInputFiltersDto;
 use App\Entity\Tag;
 use App\Entity\Url;
 use App\Entity\User;
+use Exception;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
@@ -18,11 +21,13 @@ interface UrlServiceInterface
     /**
      * Get paginated list.
      *
-     * @param int $page Page number
+     * @param int                    $page    Page number
+     * @param UrlListInputFiltersDto $filters Filters
+     * @param User|null              $user    Users
      *
      * @return PaginationInterface<string, mixed> Paginated list
      */
-    public function getPaginatedList(int $page, User $user = null): PaginationInterface;
+    public function getPaginatedList(int $page, UrlListInputFiltersDto $filters, ?User $user = null): PaginationInterface;
 
     /**
      * Save entity.
@@ -38,9 +43,26 @@ interface UrlServiceInterface
      */
     public function delete(Url $url): void;
 
+    /**
+     * Generate a unique shortened URL.
+     *
+     * @param string $host Host part
+     *
+     * @return string Unique shortened URL
+     *
+     * @throws Exception When random_bytes fails
+     */
     public function generateUniqueShortUrl(string $host): string;
 
-    public function findByShortenedUrl(string $slug, string $host);
+    /**
+     * Find Url by slug and host.
+     *
+     * @param string $slug Slug
+     * @param string $host Host
+     *
+     * @return ?Url Url entity
+     */
+    public function findByShortenedUrl(string $slug, string $host): ?Url;
 
     /**
      * Find by title.
@@ -51,4 +73,12 @@ interface UrlServiceInterface
      */
     public function findOneByTitle(string $title): ?Tag;
 
+    /**
+     * Check daily limit.
+     *
+     * @param string $ipAddress IP address
+     *
+     * @return int Number of URLs created today by this IP
+     */
+    public function checkDailyLimit(string $ipAddress): int;
 }

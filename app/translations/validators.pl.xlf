@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" target-language="pl" datatype="plaintext" original="validators">
+    <body>
+      <trans-unit id="validators.password_required" resname="validators.password_required">
+        <source>validators.password_required</source>
+        <target>Proszę wprowadzić hasło</target>
+      </trans-unit>
+      <trans-unit id="validators.password_min_length" resname="validators.password_min_length">
+        <source>validators.password_min_length</source>
+        <target>Twoje hasło powinno mieć co najmniej {{ limit }} znaków</target>
+      </trans-unit>
+      <trans-unit id="validators.email_exists" resname="validators.email_exists">
+        <source>validators.email_exists</source>
+        <target>Konto z tym adresem e-mail już istnieje</target>
+      </trans-unit>
+      <trans-unit id="enter_url">
+        <source>enter_url</source>
+        <target>Istnieje już konto z tym adresem e-mail</target>
+      </trans-unit>
+      <trans-unit id="url_cannot_be_longer">
+        <source>url_cannot_be_longer</source>
+        <target>Adres URL nie może być dłuższy niż 255 znaków.</target>
+      </trans-unit>
+      <trans-unit id="wrong_format_url">
+        <source>wrong_format_url</source>
+        <target>To nie jest prawidłowy format adresu URL.</target>
+      </trans-unit>
+      <trans-unit id="message.no_users_yet">
+        <source>message.no_users_yet</source>
+        <target>Nie dodano jeszcze żadnych użytkowników.</target>
+      </trans-unit>
+      <trans-unit id="message.no_urls_yet">
+        <source>message.no_urls_yet</source>
+        <target>Nie utworzono jeszcze żadnych skróconych adresów URL.</target>
+      </trans-unit>
+
+    </body>
+  </file>
+</xliff>

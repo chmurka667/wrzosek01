@@ -1,11 +1,11 @@
 <?php
+
 /**
  * User service interface.
  */
 
 namespace App\Service;
 
-use App\Entity\Tag;
 use App\Entity\User;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
@@ -14,6 +14,15 @@ use Knp\Component\Pager\Pagination\PaginationInterface;
  */
 interface UserServiceInterface
 {
+    /**
+     * Get paginated list.
+     *
+     * @param int $page Page number
+     *
+     * @return PaginationInterface Paginated list
+     */
+    public function getPaginatedList(int $page): PaginationInterface;
+
     /**
      * Save entity.
      *
@@ -27,6 +36,4 @@ interface UserServiceInterface
      * @param User $user User entity
      */
     public function delete(User $user): void;
-
-
 }

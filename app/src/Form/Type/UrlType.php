@@ -1,14 +1,13 @@
 <?php
+
 /**
  * Url type.
  */
 
 namespace App\Form\Type;
 
-use App\Entity\Tag;
 use App\Entity\Url;
 use App\Form\DataTransformer\TagsDataTransformer;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,6 +26,7 @@ class UrlType extends AbstractType
     public function __construct(private readonly TagsDataTransformer $tagsDataTransformer)
     {
     }
+
     /**
      * Builds the form.
      *
@@ -40,14 +40,17 @@ class UrlType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add(
-            'email',
-            TextType::class,
-            [
-                'label' => 'email',
-                'required' => true,
-                'attr' => ['max_length' => 255],
-            ]);
+        if (!$options['is_logged_in']) {
+            $builder->add(
+                'email',
+                TextType::class,
+                [
+                    'label' => 'email',
+                    'required' => true,
+                    'attr' => ['max_length' => 255],
+                ]
+            );
+        }
         $builder->add(
             'original_url',
             TextType::class,
@@ -55,7 +58,8 @@ class UrlType extends AbstractType
                 'label' => 'original_url',
                 'required' => true,
                 'attr' => ['max_length' => 255],
-            ]);
+            ]
+        );
         $builder->add(
             'tags',
             TextType::class,
@@ -78,7 +82,12 @@ class UrlType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => Url::class]);
+        $resolver->setDefaults([
+            'data_class' => Url::class,
+            'is_logged_in' => true,
+        ]);
+
+        $resolver->setAllowedTypes('is_logged_in', 'bool');
     }
 
     /**

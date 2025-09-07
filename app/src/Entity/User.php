@@ -1,4 +1,5 @@
 <?php
+
 /**
  * User entity.
  */
@@ -10,6 +11,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -20,12 +22,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
 #[ORM\UniqueConstraint(name: 'email_idx', columns: ['email'])]
+#[UniqueEntity(fields: ['email'], message: 'validators.email_exists')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -34,13 +35,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Email.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\NotBlank]
     #[Assert\Email]
-    private ?string $email;
+    private ?string $email = null;
 
     /**
      * Roles.
@@ -52,19 +51,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Password.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string')]
     #[Assert\NotBlank]
-    private ?string $password;
+    private ?string $password = null;
 
     /**
+     * URLs from user.
+     *
      * @var Collection<int, Url>
      */
-    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Url::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Url::class)]
     private Collection $uRLs;
 
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         $this->uRLs = new ArrayCollection();
@@ -101,7 +103,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * A visual identifier that represents this user.
+     * get User identifier.
      *
      * @return string User identifier
      *
@@ -113,8 +115,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @deprecated since Symfony 5.3, use getUserIdentifier instead
-     *
      * @return string Username
      */
     public function getUsername(): string
@@ -175,6 +175,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
      *
      * @see UserInterface
+     *
+     * @return string|null Salt
      */
     public function getSalt(): ?string
     {
@@ -193,30 +195,43 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, URL>
+     * Getter for URLs.
+     *
+     * @return Collection<int, Url> URLs
      */
     public function getURLs(): Collection
     {
         return $this->uRLs;
     }
 
-    public function addURL(URL $uRL): static
+    /**
+     * Add URL.
+     *
+     * @param Url $uRL URL entity
+     *
+     * @return static
+     */
+    public function addURL(Url $uRL): static
     {
         if (!$this->uRLs->contains($uRL)) {
             $this->uRLs->add($uRL);
-            $uRL->setUsers($this);
+            $uRL->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeURL(URL $uRL): static
+    /**
+     * Remove URL.
+     *
+     * @param Url $uRL URL entity
+     *
+     * @return static
+     */
+    public function removeURL(Url $uRL): static
     {
-        if ($this->uRLs->removeElement($uRL)) {
-            // set the owning side to null (unless already changed)
-            if ($uRL->getUsers() === $this) {
-                $uRL->setUsers(null);
-            }
+        if ($this->uRLs->removeElement($uRL) && $uRL->getUser() === $this) {
+            $uRL->setUser(null);
         }
 
         return $this;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * User service.
  */
@@ -6,14 +7,10 @@
 namespace App\Service;
 
 use App\Entity\User;
-use App\Entity\Tag;
-use App\Repository\TagRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping\Entity;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\String\ByteString;
-
 
 /**
  * Class UserService.
@@ -35,11 +32,32 @@ class UserService implements UserServiceInterface
      * Constructor.
      *
      * @param UserRepository     $userRepository User repository
+     * @param PaginatorInterface $paginator      Paginator
      */
-    public function __construct(private readonly UserRepository $userRepository)
+    public function __construct(private readonly UserRepository $userRepository, private readonly PaginatorInterface $paginator)
     {
     }
 
+    /**
+     * Get paginated list.
+     *
+     * @param int $page Page number
+     *
+     * @return PaginationInterface Paginated list
+     */
+    public function getPaginatedList(int $page): PaginationInterface
+    {
+        return $this->paginator->paginate(
+            $this->userRepository->queryAll(),
+            $page,
+            self::PAGINATOR_ITEMS_PER_PAGE,
+            [
+                'sortFieldAllowList' => ['user.id', 'user.email', 'user.roles'],
+                'defaultSortFieldName' => 'user.email',
+                'defaultSortDirection' => 'desc',
+            ]
+        );
+    }
 
     /**
      * Save entity.
@@ -60,6 +78,4 @@ class UserService implements UserServiceInterface
     {
         $this->userRepository->delete($user);
     }
-
-
 }

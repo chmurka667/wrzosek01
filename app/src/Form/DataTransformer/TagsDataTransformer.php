@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tags data transformer.
  */
@@ -15,14 +16,14 @@ use Symfony\Component\Form\DataTransformerInterface;
  *
  * @implements DataTransformerInterface<mixed, mixed>
  */
-class TagsDataTransformer implements DataTransformerInterface
+readonly class TagsDataTransformer implements DataTransformerInterface
 {
     /**
      * Constructor.
      *
      * @param TagServiceInterface $tagService Tag service
      */
-    public function __construct(private readonly TagServiceInterface $tagService)
+    public function __construct(private TagServiceInterface $tagService)
     {
     }
 
@@ -64,7 +65,7 @@ class TagsDataTransformer implements DataTransformerInterface
         foreach ($tagTitles as $tagTitle) {
             if ('' !== trim($tagTitle)) {
                 $tag = $this->tagService->findOneByTitle(strtolower($tagTitle));
-                if (null === $tag) {
+                if (!$tag instanceof Tag) {
                     $tag = new Tag();
                     $tag->setTitle($tagTitle);
 

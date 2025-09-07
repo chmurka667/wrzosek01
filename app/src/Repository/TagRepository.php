@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Tag repository.
+ */
+
 namespace App\Repository;
 
 use App\Entity\Tag;
@@ -8,40 +12,32 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * Class TagRepository.
+ *
+ * Repository for Tag entity.
+ *
  * @extends ServiceEntityRepository<Tag>
  */
 class TagRepository extends ServiceEntityRepository
 {
+    /**
+     * Constructor.
+     *
+     * @param ManagerRegistry $registry Manager registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Tag::class);
     }
 
-    //    /**
-    //     * @return Tag[] Returns an array of Tag objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('t.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Tag
-    //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
-    public function findOneByTitle(string $title)
+    /**
+     * Find one tag by title.
+     *
+     * @param string $title Tag title
+     *
+     * @return Tag|null Tag entity
+     */
+    public function findOneByTitle(string $title): ?Tag
     {
         return $this->findOneBy(['title' => $title]);
     }
@@ -50,7 +46,6 @@ class TagRepository extends ServiceEntityRepository
      * Save entity.
      *
      * @param Tag $tag Tag entity
-     * @throws ORMException
      */
     public function save(Tag $tag): void
     {
@@ -63,9 +58,6 @@ class TagRepository extends ServiceEntityRepository
      * Delete entity.
      *
      * @param Tag $tag Tag entity
-     *
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function delete(Tag $tag): void
     {
@@ -73,5 +65,4 @@ class TagRepository extends ServiceEntityRepository
         $this->_em->remove($tag);
         $this->_em->flush();
     }
-
 }

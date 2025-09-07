@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tag controller.
  */
@@ -17,32 +18,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class TagController.
  */
-#[Route('/tag')]
 class TagController extends AbstractController
 {
-    /**
-     * Tag service.
-     */
-    private TagServiceInterface $tagService;
-
-    /**
-     * Translator.
-     */
-    private TranslatorInterface $translator;
-
     /**
      * Constructor.
      *
      * @param TagServiceInterface $tagService Tag service
      * @param TranslatorInterface $translator Translator
      */
-    public function __construct(TagServiceInterface $tagService, TranslatorInterface $translator)
+    public function __construct(private readonly TagServiceInterface $tagService, private readonly TranslatorInterface $translator)
     {
-        $this->tagService = $tagService;
-        $this->translator = $translator;
     }
-
-
     /**
      * Show action.
      *
@@ -51,7 +37,7 @@ class TagController extends AbstractController
      * @return Response HTTP response
      */
     #[Route(
-        '/{id}',
+        '/tag/{id}',
         name: 'tag_show',
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET'
@@ -60,7 +46,6 @@ class TagController extends AbstractController
     {
         return $this->render('tag/show.html.twig', ['tag' => $tag]);
     }
-
     /**
      * Create action.
      *
@@ -68,8 +53,8 @@ class TagController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route(
-        '/create',
+    #[\Symfony\Component\Routing\Attribute\Route(
+        '/tag/create',
         name: 'tag_create',
         methods: 'GET|POST',
     )]
@@ -95,7 +80,6 @@ class TagController extends AbstractController
             ['form' => $form->createView()]
         );
     }
-
     /**
      * Edit action.
      *
@@ -104,7 +88,7 @@ class TagController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}/edit', name: 'tag_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[\Symfony\Component\Routing\Attribute\Route('/tag/{id}/edit', name: 'tag_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     public function edit(Request $request, Tag $tag): Response
     {
         $form = $this->createForm(
@@ -136,7 +120,6 @@ class TagController extends AbstractController
             ]
         );
     }
-
     /**
      * Delete action.
      *
@@ -145,7 +128,7 @@ class TagController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}/delete', name: 'tag_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[\Symfony\Component\Routing\Attribute\Route('/tag/{id}/delete', name: 'tag_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
     public function delete(Request $request, Tag $tag): Response
     {
         $form = $this->createForm(

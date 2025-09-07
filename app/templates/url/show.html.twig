@@ -53,9 +53,9 @@
             <dt>{{ 'label.created_at'|trans }}</dt>
             <dd>{{ url.createdAt|date('Y/m/d') }}</dd>
             <dt>{{ 'label.originalUrl'|trans }}</dt>
-            <dd>{{  url.original_url }}</dd>
+            <dd>{{  url.originalUrl }}</dd>
             <dt>{{ 'label.shortenedUrl'|trans }}</dt>
-            <dd>{{  url.shortened_url }}</dd>
+            <dd>{{  url.shortenedUrl }}</dd>
             <dt>{{ 'label.clicks'|trans }}</dt>
             <dd>{{  url.clicks }}</dd>
         </dl>
@@ -69,12 +69,22 @@
             {{ 'message.record_not_found'|trans }}
         </p>
     {% endif %}
-    {% if is_granted('ROLE_ADMIN') %}
+    {% if is_granted('ROLE_USER') %}
     <button class="button1">
-        <a href="{{ path('url_delete', { 'id': url.id }) }}">Delete</a>
+        <a href="{{ path('url_delete', { 'id': url.id }) }}">{{ 'action.delete'|trans }}</a>
     </button>
     <button class="button2">
-        <a href="{{ path('url_edit', { 'id': url.id }) }}">Edit</a>
+        <a href="{{ path('url_edit', { 'id': url.id }) }}">{{ 'action.edit'|trans }}</a>
     </button>
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <form method="post" action="{{ path('url_block', {id: url.id}) }}" style="display:inline;">
+                <input type="hidden" name="_token" value="{{ csrf_token('block' ~ url.id) }}">
+                <button class="btn btn-warning"
+                        {% if url.blockedUntil and (url.blockedUntil > date()) %}disabled{% endif %}>
+                    {{ 'action.block_24h'|trans }}
+                </button>
+            </form>
+        {% endif %}
     {% endif %}
 {% endblock %}

@@ -26,6 +26,10 @@
         <source>message.empty_list</source>
         <target>List is empty.</target>
       </trans-unit>
+      <trans-unit id="message.invalidUrl">
+        <source>message.invalidUrl</source>
+        <target>Please enter a valid HTTPS URL starting with https://</target>
+      </trans-unit>
       <trans-unit id="message.record_not_found">
         <source>message.record_not_found</source>
         <target>Record not found.</target>
@@ -82,13 +86,17 @@
         <source>action.edit</source>
         <target>Edit</target>
       </trans-unit>
+      <trans-unit id="action.block_24h">
+        <source>action.block_24h</source>
+        <target>Block URL for 24h</target>
+      </trans-unit>
       <trans-unit id="message.form_error">
         <source>message.form_error</source>
         <target>Form has errors</target>
       </trans-unit>
       <trans-unit id="action.back_to_list">
         <source>action.back_to_list</source>
-        <target>Back to list</target>
+        <target>Go back</target>
       </trans-unit>
       <trans-unit id="title.tag_create">
         <source>title.tag_create</source>
@@ -178,6 +186,22 @@
         <source>label.originalUrl</source>
         <target>Original URL</target>
       </trans-unit>
+      <trans-unit id="Email">
+        <source>Email</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="Role">
+          <source>Role</source>
+          <target>Role</target>
+      </trans-unit>
+      <trans-unit id="User">
+          <source>User</source>
+          <target>User</target>
+      </trans-unit>
+      <trans-unit id="Admin">
+          <source>Admin</source>
+          <target>Admin</target>
+      </trans-unit>
       <trans-unit id="label.shortenedUrl">
         <source>label.shortenedUrl</source>
         <target>Shortened URL</target>
@@ -210,6 +234,153 @@
           <source>title.create</source>
           <target>Create</target>
         </trans-unit>
+        <trans-unit id="message.daily_limit_exceeded">
+          <source>message.daily_limit_exceeded</source>
+          <target>You have exceeded your daily limit</target>
+        </trans-unit>
+        <trans-unit id="message.url_blocked_24h">
+          <source>message.url_blocked_24h</source>
+          <target>This URL has been blocked for 24 hours</target>
+        </trans-unit>
+        <trans-unit id="label.YouAreLoggedInAs">
+          <source>label.YouAreLoggedInAs</source>
+          <target>You are logged in as </target>
+        </trans-unit>
+        <trans-unit id="action.editProfile">
+          <source>action.editProfile</source>
+          <target>Edit profile</target>
+        </trans-unit>
+        <trans-unit id="action.logout">
+          <source>action.logout</source>
+          <target>Log out</target>
+        </trans-unit>
+        <trans-unit id="title.userEdit">
+          <source>title.userEdit</source>
+          <target>Edit user</target>
+        </trans-unit>
+        <trans-unit id="title.user_delete">
+          <source>title.user_delete</source>
+          <target>Delete user</target>
+        </trans-unit>
+        <trans-unit id="title.user_list">
+          <source>title.user_list</source>
+          <target>User list</target>
+        </trans-unit>
+        <trans-unit id="action.urlsList">
+          <source>action.urlsList</source>
+          <target>URLs list</target>
+        </trans-unit>
+        <trans-unit id="label.roles">
+          <source>label.roles</source>
+          <target>Roles</target>
+        </trans-unit>
+        <trans-unit id="label.password">
+          <source>label.password</source>
+          <target>Password</target>
+        </trans-unit>
+        <trans-unit id="label.log_in">
+          <source>label.log_in</source>
+          <target>Log in</target>
+        </trans-unit>
+        <trans-unit id="action.create_withoout_registering">
+          <source>action.create_withoout_registering</source>
+          <target>Create without registering</target>
+        </trans-unit>
+        <trans-unit id="action.userList">
+          <source>action.userList</source>
+          <target>User list</target>
+        </trans-unit>
+
+        <trans-unit id="action.login" resname="action.login">
+          <source>action.login</source>
+          <target>Log in</target>
+        </trans-unit>
+
+        <trans-unit id="title.back_to_index" resname="title.back_to_index">
+          <source>title.back_to_index</source>
+          <target>Back to index</target>
+        </trans-unit>
+
+        <trans-unit id="label.tag" resname="label.tag">
+          <source>label.tag</source>
+          <target>Tags</target>
+        </trans-unit>
+          <trans-unit id="Password">
+              <source>Password</source>
+              <target>Password</target>
+          </trans-unit>
+
+          <trans-unit id="title.register">
+            <source>title.register</source>
+            <target>Register</target>
+          </trans-unit>
+
+            <trans-unit id="action.register">
+              <source>action.register</source>
+              <target>Register</target>
+            </trans-unit>
+      <trans-unit id="form.email.label">
+        <source>form.email.label</source>
+        <target>Email</target>
+      </trans-unit>
+
+      <trans-unit id="form.original_url.label">
+        <source>form.original_url.label</source>
+        <target>Original URL</target>
+      </trans-unit>
+      <trans-unit id="form.original_url.help.readonly_non_admin">
+        <source>form.original_url.help.readonly_non_admin</source>
+        <target>Only administrators can modify the original URL.</target>
+      </trans-unit>
+      <trans-unit id="message.no_users_yet"><source>message.no_users_yet</source><target>No users yet</target></trans-unit>
+
+      <trans-unit id="form.shortened_url.label">
+        <source>form.shortened_url.label</source>
+        <target>Shortened URL</target>
+      </trans-unit>
+      <trans-unit id="form.shortened_url.help.admin_warning">
+        <source>form.shortened_url.help.admin_warning</source>
+        <target>Caution: Changing this will break existing links.</target>
+      </trans-unit>
+      <trans-unit id="form.shortened_url.help.readonly_non_admin">
+        <source>form.shortened_url.help.readonly_non_admin</source>
+        <target>The shortened URL cannot be modified.</target>
+      </trans-unit>
+      <trans-unit id="message.url_not_found">
+        <source>message.url_not_found</source>
+        <target>Couldn't find this URL address.</target>
+      </trans-unit>
+
+      <trans-unit id="form.tags.label">
+        <source>form.tags.label</source>
+        <target>Tags</target>
+      </trans-unit>
+      <trans-unit id="form.tags.help.limit_non_privileged">
+        <source>form.tags.help.limit_non_privileged</source>
+        <target>You can only add/remove your own tags.</target>
+      </trans-unit>
+
+      <trans-unit id="form.created_at.label">
+        <source>form.created_at.label</source>
+        <target>Created At</target>
+      </trans-unit>
+      <trans-unit id="form.created_at.help.read_only">
+        <source>form.created_at.help.read_only</source>
+        <target>Creation timestamp (read-only)</target>
+      </trans-unit>
+    <trans-unit id="action.back"><source>action.back</source><target>Back</target></trans-unit>
+    <trans-unit id="label.user_info"><source>label.user_info</source><target>User Info</target></trans-unit>
+    <trans-unit id="label.id_short"><source>label.id_short</source><target>ID</target></trans-unit>
+
+      <trans-unit id="label.quick_info"><source>label.quick_info</source><target>Quick Info</target></trans-unit>
+      <trans-unit id="label.short"><source>label.short</source><target>Short</target></trans-unit>
+
+      <trans-unit id="message.no_urls_yet"><source>message.no_urls_yet</source><target>No URLs have been shortened yet.</target></trans-unit>
+
+      <trans-unit id="label.clicks_mobile">
+        <source>label.clicks_mobile</source>
+        <target>%count% clicks</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

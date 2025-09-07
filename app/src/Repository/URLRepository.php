@@ -1,18 +1,25 @@
 <?php
 
+/**
+ * URL repository.
+ */
+
 namespace App\Repository;
 
+use App\Dto\UrlListFiltersDto;
+use App\Entity\Tag;
 use App\Entity\Url;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Exception\ORMException;
-use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * Class URLRepository.
+ *
+ * Repository for Url entity.
+ *
  * @extends ServiceEntityRepository<Url>
  */
 class URLRepository extends ServiceEntityRepository
@@ -30,22 +37,35 @@ class URLRepository extends ServiceEntityRepository
     /**
      * Query all records.
      *
+     * @param UrlListFiltersDto $filters          Filters
+     * @param User|null         $user             User entity (optional)
+     * @param bool              $restrictToAuthor Restrict results to author
+     *
      * @return QueryBuilder Query builder
      */
-    public function queryAll(): QueryBuilder
+    public function queryAll(UrlListFiltersDto $filters, ?User $user = null, bool $restrictToAuthor = false): QueryBuilder
     {
-        return $this->getOrCreateQueryBuilder()
+        $qb = $this->createQueryBuilder('url')
             ->select(
-                'partial url.{id, createdAt, original_url, shortened_url, email}'
+                'partial url.{id, createdAt, originalUrl, shortenedUrl, email, clicks}',
+                'partial tags.{id, title}'
             )
-            ->orderBy('url.createdAt', 'DESC');
+            ->leftJoin('url.tags', 'tags');
+
+        if ($restrictToAuthor && $user instanceof User) {
+            $qb->andWhere('url.user = :user')
+                ->setParameter('user', $user);
+        }
+
+        return $this->applyFiltersToList($qb, $filters);
     }
 
     /**
      * Save entity.
      *
      * @param Url $url Url entity
-     * @throws ORMException
+     *
+     * @return void
      */
     public function save(Url $url): void
     {
@@ -54,14 +74,12 @@ class URLRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
-
     /**
      * Delete entity.
      *
      * @param Url $url Url entity
      *
-     * @throws ORMException
-     * @throws OptimisticLockException
+     * @return void
      */
     public function delete(Url $url): void
     {
@@ -71,24 +89,19 @@ class URLRepository extends ServiceEntityRepository
     }
 
     /**
-     * Get or create new query builder.
+     * Find by shortened Url.
      *
-     * @param QueryBuilder|null $queryBuilder Query builder
+     * @param string $shortenedUrl Shortened URL
      *
-     * @return QueryBuilder Query builder
+     * @return Url|null Url entity
      */
-    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
+    public function findByShortenedUrl(string $shortenedUrl): ?Url
     {
-        return $queryBuilder ?? $this->createQueryBuilder('url');
-    }
-
-    public function findByShortenedUrl(string $shortened_url): ?Url
-    {
-        return $this->findOneBy(['shortened_url' => $shortened_url]);
+        return $this->findOneBy(['shortenedUrl' => $shortenedUrl]);
     }
 
     /**
-     * Query urls by user.
+     * Query URLs by user.
      *
      * @param User $user User entity
      *
@@ -96,20 +109,72 @@ class URLRepository extends ServiceEntityRepository
      */
     public function queryByUser(User $user): QueryBuilder
     {
-        $queryBuilder = $this->queryAll();
+        return $this->queryAll(new UrlListFiltersDto(null), $user, true);
+    }
 
-        $queryBuilder->andWhere('url.users = :user')
-            ->setParameter('user', $user);
+    /**
+     * Query by clicks.
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryByClicks(): QueryBuilder
+    {
+        return $this->getOrCreateQueryBuilder()
+            ->select('partial url.{id, createdAt, originalUrl, shortenedUrl, email, clicks}')
+            ->orderBy('url.createdAt', 'DESC');
+    }
+
+    /**
+     * Check daily limit.
+     *
+     * @param string             $clientIp Client IP address
+     * @param \DateTimeInterface $today    Start of day (inclusive)
+     * @param \DateTimeInterface $tomorrow Next day (exclusive)
+     *
+     * @return int Number of created URLs
+     */
+    public function checkDailyLimit(string $clientIp, \DateTimeInterface $today, \DateTimeInterface $tomorrow): int
+    {
+        return (int) $this->createQueryBuilder('u')
+            ->select('COUNT(u.id)')
+            ->where('u.ipAddress = :ip')
+            ->andWhere('u.createdAt >= :today')
+            ->andWhere('u.createdAt < :tomorrow')
+            ->setParameter('ip', $clientIp)
+            ->setParameter('today', $today, \Doctrine\DBAL\Types\Types::DATETIME_MUTABLE)
+            ->setParameter('tomorrow', $tomorrow, \Doctrine\DBAL\Types\Types::DATETIME_MUTABLE)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * Apply filters to list.
+     *
+     * @param QueryBuilder      $queryBuilder Query builder
+     * @param UrlListFiltersDto $filters      Filters
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function applyFiltersToList(QueryBuilder $queryBuilder, UrlListFiltersDto $filters): QueryBuilder
+    {
+        if ($filters->tag instanceof Tag) {
+            $queryBuilder
+                ->andWhere('tags IN (:tag)')
+                ->setParameter('tag', $filters->tag);
+        }
 
         return $queryBuilder;
     }
 
-    public function queryByClicks(): QueryBuilder
+    /**
+     * Query builder.
+     *
+     * @param QueryBuilder|null $queryBuilder Existing query builder or null
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
     {
-        return $this->getOrCreateQueryBuilder()
-            ->select(
-                'partial url.{id, createdAt, original_url, shortened_url, email, clicks}'
-            )
-            ->orderBy('url.createdAt', 'DESC');
+        return $queryBuilder ?? $this->createQueryBuilder('url');
     }
 }

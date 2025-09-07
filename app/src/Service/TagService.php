@@ -1,21 +1,14 @@
 <?php
+
 /**
  * Category service.
  */
+
 namespace App\Service;
 
-use App\Entity\Category;
-use App\Entity\Task;
 use App\Entity\Tag;
 use App\Repository\TagRepository;
-use App\Repository\TaskRepository;
-use App\Repository\CategoryRepository;
-use App\Service\CategoryServiceInterface;
-
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
-use Knp\Component\Pager\Pagination\PaginationInterface;
-use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * Class CategoryService.
@@ -30,6 +23,7 @@ class TagService implements TagServiceInterface
     public function __construct(private readonly TagRepository $tagRepository)
     {
     }
+
     /**
      * Find by title.
      *
@@ -43,6 +37,20 @@ class TagService implements TagServiceInterface
     }
 
     /**
+     * Find by id.
+     *
+     * @param int $id Tag id
+     *
+     * @return Tag|null Tag entity
+     *
+     * @throws NonUniqueResultException
+     */
+    public function findOneById(int $id): ?Tag
+    {
+        return $this->tagRepository->findOneById($id);
+    }
+
+    /**
      * Save entity.
      *
      * @param Tag $tag Tag entity
@@ -51,6 +59,7 @@ class TagService implements TagServiceInterface
     {
         $this->tagRepository->save($tag);
     }
+
     /**
      * Delete entity.
      *
@@ -60,5 +69,4 @@ class TagService implements TagServiceInterface
     {
         $this->tagRepository->delete($tag);
     }
-
 }

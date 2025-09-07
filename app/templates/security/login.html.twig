@@ -8,11 +8,9 @@
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
 
-        {% if app.user %}
-            <div class="mb-3">
-                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-            </div>
-        {% endif %}
+        <div class="register-link">
+            <a href="{{ path('app_register') }}">{{ 'title.register'|trans }}</a>
+        </div>
 
         <h1 class="h3 mb-3 font-weight-normal">{{ 'title.Please_sign_in'|trans }}</h1>
         <label for="inputEmail">{{ 'label.email'|trans }}</label>
@@ -23,17 +21,22 @@
 
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        <button class="btn btn-lg btn-primary" type="submit">{{ 'label.log_in'|trans }}</button>
+        <button class="btn btn-lg btn-primary" style="margin-top:1svh;" type="submit">{{ 'label.log_in'|trans }}</button>
     </form>
+    <div class="d-flex justify-content-center" style="display: inline">
+        {% if not is_granted('ROLE_USER') %}
+            <button class="btn btn-lg btn-primary w-100" style="max-width: 19rem; margin-bottom:2svh; margin-top:4svh; display: inline" type="submit">
+                <a href="{{ url('url_create') }}" style="color: floralwhite; text-decoration: none">
+                    {{ 'action.create_withoout_registering'|trans }}
+                </a>
+            </button>
 
-    <form method="post" action="{{ path('url_create') }}">
-        <h1 class="h3 mb-3 font-weight-normal">Create Shortened URL</h1>
-        <label for="email2">{{ 'label.email'|trans }}</label>
-        <input type="email" name="email2" id="email2" class="form-control" required>
+        {% endif %}
+    </div>
 
-        <label for="inputUrl">{{ 'label.url_to_shorten'|trans }}</label>
-        <input type="url" name="url" id="inputUrl" class="form-control" required>
-
-        <button class="btn btn-lg btn-primary" type="submit">{{ 'label.create_link'|trans }}</button>
-    </form>
+    <div class="d-flex justify-content-center">
+        <a href="{{ path('url_index') }}" class="btn btn-lg btn-primary w-100" style="max-width: 19rem;">
+            {{ 'title.back_to_index'|trans }}
+        </a>
+    </div>
 {% endblock %}
