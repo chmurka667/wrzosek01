@@ -311,15 +311,6 @@ class UrlController extends AbstractController
         $host = $request->getSchemeAndHttpHost();
         $url = $this->urlService->findByShortenedUrl($slug, $host);
 
-        if ($url->isBlocked()) {
-            $this->addFlash(
-                'warning',
-                $this->translator->trans('message.url_blocked_24h')
-            );
-
-            return $this->redirectToRoute('url_show', ['id' => $url->getId()]);
-        }
-
         if (!$url) {
             $this->addFlash(
                 'warning',
@@ -329,6 +320,14 @@ class UrlController extends AbstractController
             return $this->redirectToRoute('url_index');
         }
 
+        if ($url->isBlocked()) {
+            $this->addFlash(
+                'warning',
+                $this->translator->trans('message.url_blocked_24h')
+            );
+
+            return $this->redirectToRoute('url_show', ['id' => $url->getId()]);
+        }
 
         $url->setClicks($url->getClicks() + 1);
         $this->urlService->save($url);
