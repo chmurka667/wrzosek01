@@ -11,12 +11,14 @@ use App\Entity\User;
 use App\Form\Type\UserType;
 use App\Service\UserServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Form\Type\RegistrationFormType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,12 +60,12 @@ class SecurityController extends AbstractController
     /**
      * Logout action.
      *
-     * @throws \LogicException Always
+     * @throws LogicException Always
      */
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        throw new LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
     /**
@@ -113,7 +115,7 @@ class SecurityController extends AbstractController
     public function userEdit(Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $user = $this->getUser();
-        if (!$user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
+        if (!$user instanceof UserInterface) {
             return $this->redirectToRoute('app_login');
         }
 

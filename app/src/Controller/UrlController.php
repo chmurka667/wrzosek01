@@ -20,6 +20,7 @@ use DateTimeImmutable;
 use Exception;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,10 +43,12 @@ class UrlController extends AbstractController
      * @param UserServiceInterface $userService User service
      * @param TranslatorInterface  $translator  Translator
      * @param Security             $security    Security
+     * @param string               $baseUrl     Base URL
      */
-    public function __construct(private readonly UrlServiceInterface $urlService, private readonly UserServiceInterface $userService, private readonly TranslatorInterface $translator, private readonly Security $security)
+    public function __construct(private readonly UrlServiceInterface $urlService, private readonly UserServiceInterface $userService, private readonly TranslatorInterface $translator, private readonly Security $security, #[Autowire('%app.base_url%')] private readonly string $baseUrl)
     {
     }
+
     /**
      * Index action.
      *
@@ -81,6 +84,7 @@ class UrlController extends AbstractController
     {
         return $this->render('url/show.html.twig', ['url' => $url]);
     }
+
     /**
      * Create action.
      *
@@ -103,7 +107,7 @@ class UrlController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $host = $request->getSchemeAndHttpHost();
+            $host = $this->baseUrl;
             $shortenedUrl = $this->urlService->generateUniqueShortUrl($host);
             $url->setShortenedUrl($shortenedUrl);
 
@@ -255,6 +259,7 @@ class UrlController extends AbstractController
 
         return $this->redirectToRoute('url_index');
     }
+
     /**
      * Admin action.
      *
@@ -308,7 +313,7 @@ class UrlController extends AbstractController
     public function redirectUrl(Request $request, string $slug): Response
     {
 
-        $host = $request->getSchemeAndHttpHost();
+        $host = $this->baseUrl;
         $url = $this->urlService->findByShortenedUrl($slug, $host);
 
         if (!$url) {
