@@ -209,7 +209,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @param Url $uRL URL entity
      *
-     * @return static
+     * @return User $uRL
      */
     public function addURL(Url $uRL): static
     {
@@ -226,7 +226,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @param Url $uRL URL entity
      *
-     * @return static
+     * @return User $uRL
      */
     public function removeURL(Url $uRL): static
     {

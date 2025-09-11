@@ -6,7 +6,6 @@
 
 namespace App\Security;
 
-use Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -112,7 +111,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
      *
      * @return RedirectResponse|null HTTP response
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?RedirectResponse
     {

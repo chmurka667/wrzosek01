@@ -7,8 +7,6 @@
 namespace App\Entity;
 
 use App\Repository\TagRepository;
-use DateTimeImmutable;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -31,14 +29,14 @@ class Tag
      */
     #[ORM\Column(type: 'datetime_immutable')]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?DateTimeImmutable $createdAt = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     /**
      * Updated at.
      */
     #[ORM\Column(type: 'datetime_immutable')]
     #[Gedmo\Timestampable(on: 'update')]
-    private ?DateTimeImmutable $updatedAt = null;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     /**
      * Slug.
@@ -66,9 +64,9 @@ class Tag
     /**
      * Get creation date.
      *
-     * @return DateTimeInterface|null Creation timestamp
+     * @return \DateTimeInterface|null Creation timestamp
      */
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
@@ -76,11 +74,11 @@ class Tag
     /**
      * Set creation date.
      *
-     * @param DateTimeImmutable $createdAt Creation timestamp
+     * @param \DateTimeImmutable $createdAt Creation timestamp
      *
-     * @return static
+     * @return Tag $createdAt
      */
-    public function setCreatedAt(DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
@@ -90,9 +88,9 @@ class Tag
     /**
      * Get update date.
      *
-     * @return DateTimeInterface|null Update timestamp
+     * @return \DateTimeInterface|null Update timestamp
      */
-    public function getUpdatedAt(): ?DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
@@ -100,11 +98,11 @@ class Tag
     /**
      * Set update date.
      *
-     * @param DateTimeImmutable $updatedAt Update timestamp
+     * @param \DateTimeImmutable $updatedAt Update timestamp
      *
-     * @return static
+     * @return Tag $updatedAt
      */
-    public function setUpdatedAt(DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
@@ -126,7 +124,7 @@ class Tag
      *
      * @param string $slug Slug
      *
-     * @return static
+     * @return Tag @slug
      */
     public function setSlug(string $slug): static
     {
@@ -150,7 +148,7 @@ class Tag
      *
      * @param string $title Title
      *
-     * @return static
+     * @return Tag $title
      */
     public function setTitle(string $title): static
     {

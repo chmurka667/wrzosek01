@@ -13,10 +13,7 @@ use App\Entity\Url;
 use App\Entity\User;
 use App\Repository\TagRepository;
 use App\Repository\URLRepository;
-use DateInterval;
-use DateTime;
 use Doctrine\ORM\NonUniqueResultException;
-use Exception;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -78,8 +75,6 @@ class UrlService implements UrlServiceInterface
      * Save.
      *
      * @param Url $url Url
-     *
-     * @return void
      */
     public function save(Url $url): void
     {
@@ -90,8 +85,6 @@ class UrlService implements UrlServiceInterface
      * Delete.
      *
      * @param Url $url Url
-     *
-     * @return void
      */
     public function delete(Url $url): void
     {
@@ -105,7 +98,7 @@ class UrlService implements UrlServiceInterface
      *
      * @return string Short URL
      *
-     * @throws Exception When random_bytes fails
+     * @throws \Exception When random_bytes fails
      */
     public function generateUniqueShortUrl(string $host): string
     {
@@ -153,10 +146,10 @@ class UrlService implements UrlServiceInterface
      */
     public function checkDailyLimit(string $ipAddress): int
     {
-        $today = new DateTime();
+        $today = new \DateTime();
 
         $tomorrow = clone $today;
-        $tomorrow->add(new DateInterval('P1D'));
+        $tomorrow->add(new \DateInterval('P1D'));
 
         return $this->urlRepository->checkDailyLimit($ipAddress, $today, $tomorrow);
     }

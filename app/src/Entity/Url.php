@@ -7,9 +7,6 @@
 namespace App\Entity;
 
 use App\Repository\URLRepository;
-use DateTime;
-use DateTimeImmutable;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,8 +21,6 @@ class Url
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -34,8 +29,6 @@ class Url
 
     /**
      * Original URL.
-     *
-     * @var string|null
      */
     #[ORM\Column(name: 'original_url', length: 255)]
     #[Assert\NotBlank]
@@ -45,33 +38,25 @@ class Url
 
     /**
      * Shortened URL.
-     *
-     * @var string|null
      */
     #[ORM\Column(name: 'shortened_url', length: 255)]
     private ?string $shortenedUrl = null;
 
     /**
      * Created at.
-     *
-     * @var DateTimeImmutable|null
      */
     #[ORM\Column(type: 'datetime_immutable')]
     #[Gedmo\Timestampable(on: 'create')]
-    private ?DateTimeImmutable $createdAt = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     /**
      * Email.
-     *
-     * @var string|null
      */
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
     /**
      * Owner user.
-     *
-     * @var User|null
      */
     #[ORM\ManyToOne(inversedBy: 'uRLs')]
     #[ORM\JoinColumn(name: 'users_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
@@ -79,8 +64,6 @@ class Url
 
     /**
      * Number of clicks.
-     *
-     * @var int
      */
     #[ORM\Column]
     private int $clicks = 0;
@@ -96,19 +79,15 @@ class Url
 
     /**
      * IP address that created the URL.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 45, nullable: true)]
     private ?string $ipAddress = null;
 
     /**
      * Blocked until.
-     *
-     * @var DateTimeInterface|null
      */
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?DateTimeInterface $blockedUntil = null;
+    private ?\DateTimeInterface $blockedUntil = null;
 
     /**
      * Constructor.
@@ -143,7 +122,7 @@ class Url
      *
      * @param string $originalUrl Original URL
      *
-     * @return static
+     * @return Url $uRL
      */
     public function setOriginalUrl(string $originalUrl): static
     {
@@ -167,7 +146,7 @@ class Url
      *
      * @param string $shortenedUrl Shortened URL
      *
-     * @return static
+     * @return Url $uRL
      */
     public function setShortenedUrl(string $shortenedUrl): static
     {
@@ -179,9 +158,9 @@ class Url
     /**
      * Get creation date.
      *
-     * @return DateTimeImmutable|null Creation timestamp
+     * @return \DateTimeImmutable|null Creation timestamp
      */
-    public function getCreatedAt(): ?DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -189,11 +168,11 @@ class Url
     /**
      * Set creation date.
      *
-     * @param DateTimeImmutable $createdAt Creation timestamp
+     * @param \DateTimeImmutable $createdAt Creation timestamp
      *
-     * @return static
+     * @return Url $uRL
      */
-    public function setCreatedAt(DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
@@ -215,7 +194,7 @@ class Url
      *
      * @param string $email Email
      *
-     * @return static
+     * @return Url $uRL
      */
     public function setEmail(string $email): static
     {
@@ -239,7 +218,7 @@ class Url
      *
      * @param User|null $user User entity
      *
-     * @return static
+     * @return Url $uRL
      */
     public function setUser(?User $user): static
     {
@@ -263,7 +242,7 @@ class Url
      *
      * @param int $clicks Click count
      *
-     * @return static
+     * @return Url $uRL
      */
     public function setClicks(int $clicks): static
     {
@@ -287,7 +266,7 @@ class Url
      *
      * @param Tag $tag Tag entity
      *
-     * @return static
+     * @return Url $uRL
      */
     public function addTag(Tag $tag): static
     {
@@ -303,7 +282,7 @@ class Url
      *
      * @param Tag $tag Tag entity
      *
-     * @return static
+     * @return Url $uRL
      */
     public function removeTag(Tag $tag): static
     {
@@ -325,9 +304,9 @@ class Url
     /**
      * Set IP address.
      *
-     * @param string|null $ipAddress IP address
+     * @param string|null $ipAddress Ip address
      *
-     * @return static
+     * @return Url $uRL
      */
     public function setIpAddress(?string $ipAddress): static
     {
@@ -339,9 +318,9 @@ class Url
     /**
      * Get blocked until.
      *
-     * @return DateTimeInterface|null Blocked until
+     * @return \DateTimeInterface|null Blocked until
      */
-    public function getBlockedUntil(): ?DateTimeInterface
+    public function getBlockedUntil(): ?\DateTimeInterface
     {
         return $this->blockedUntil;
     }
@@ -349,11 +328,11 @@ class Url
     /**
      * Set blocked until.
      *
-     * @param DateTimeInterface|null $blockedUntil Blocked until
+     * @param \DateTimeInterface|null $blockedUntil Blocked until
      *
-     * @return static
+     * @return Url $uRL
      */
-    public function setBlockedUntil(?DateTimeInterface $blockedUntil): static
+    public function setBlockedUntil(?\DateTimeInterface $blockedUntil): static
     {
         $this->blockedUntil = $blockedUntil;
 
@@ -367,6 +346,6 @@ class Url
      */
     public function isBlocked(): bool
     {
-        return null !== $this->blockedUntil && new DateTime() < $this->blockedUntil;
+        return null !== $this->blockedUntil && new \DateTime() < $this->blockedUntil;
     }
 }

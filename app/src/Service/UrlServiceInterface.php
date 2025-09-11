@@ -10,7 +10,6 @@ use App\Dto\UrlListInputFiltersDto;
 use App\Entity\Tag;
 use App\Entity\Url;
 use App\Entity\User;
-use Exception;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
@@ -50,7 +49,7 @@ interface UrlServiceInterface
      *
      * @return string Unique shortened URL
      *
-     * @throws Exception When random_bytes fails
+     * @throws \Exception When random_bytes fails
      */
     public function generateUniqueShortUrl(string $host): string;
 

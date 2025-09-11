@@ -51,7 +51,7 @@
             <dt>{{ 'label.id'|trans }}</dt>
             <dd>{{ url.id }}</dd>
             <dt>{{ 'label.created_at'|trans }}</dt>
-            <dd>{{ url.createdAt|date('Y/m/d') }}</dd>
+            <dd>{{ url.createdAt|format_date('long') }}</dd>
             <dt>{{ 'label.originalUrl'|trans }}</dt>
             <dd>{{  url.originalUrl }}</dd>
             <dt>{{ 'label.shortenedUrl'|trans }}</dt>

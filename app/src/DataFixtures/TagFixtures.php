@@ -7,7 +7,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Tag;
-use DateTimeImmutable;
 
 /**
  * Class TagFixtures.
@@ -28,12 +27,12 @@ class TagFixtures extends AbstractBaseFixtures
             $tag = new Tag();
             $tag->setTitle($this->faker->unique()->word);
             $tag->setCreatedAt(
-                DateTimeImmutable::createFromMutable(
+                \DateTimeImmutable::createFromMutable(
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );
             $tag->setUpdatedAt(
-                DateTimeImmutable::createFromMutable(
+                \DateTimeImmutable::createFromMutable(
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );

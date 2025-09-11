@@ -1,4 +1,5 @@
 <?php
+
 /**
  * URL fixtures.
  */
@@ -8,7 +9,6 @@ namespace App\DataFixtures;
 use App\Entity\Tag;
 use App\Entity\Url;
 use App\Entity\User;
-use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Generator;
@@ -42,8 +42,6 @@ class UrlFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
     /**
      * Load data.
      *
-     * @return void
-     *
      * @throws RandomException
      */
     protected function loadData(): void
@@ -59,7 +57,7 @@ class UrlFixtures extends AbstractBaseFixtures implements DependentFixtureInterf
             $slug = bin2hex(random_bytes(3));
             $url->setShortenedUrl(rtrim($this->baseUrl, '/').'/'.$slug);
 
-            $url->setCreatedAt(DateTimeImmutable::createFromMutable(
+            $url->setCreatedAt(\DateTimeImmutable::createFromMutable(
                 $this->faker->dateTimeBetween('-100 days', '-1 days')
             ));
 

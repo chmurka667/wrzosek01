@@ -64,8 +64,6 @@ class URLRepository extends ServiceEntityRepository
      * Save entity.
      *
      * @param Url $url Url entity
-     *
-     * @return void
      */
     public function save(Url $url): void
     {
@@ -78,8 +76,6 @@ class URLRepository extends ServiceEntityRepository
      * Delete entity.
      *
      * @param Url $url Url entity
-     *
-     * @return void
      */
     public function delete(Url $url): void
     {

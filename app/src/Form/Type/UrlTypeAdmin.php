@@ -155,6 +155,6 @@ class UrlTypeAdmin extends AbstractType
     {
         $requiredRoles = is_array($requiredRoles) ? $requiredRoles : [$requiredRoles];
 
-        return array_intersect($userRoles, $requiredRoles) !== [];
+        return [] !== array_intersect($userRoles, $requiredRoles);
     }
 }

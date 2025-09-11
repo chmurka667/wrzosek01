@@ -16,8 +16,6 @@ use App\Resolver\UrlListInputFiltersDtoResolver;
 use App\Security\Voter\UrlVoter;
 use App\Service\UrlServiceInterface;
 use App\Service\UserServiceInterface;
-use DateTimeImmutable;
-use Exception;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -92,7 +90,7 @@ class UrlController extends AbstractController
      *
      * @return Response HTTP response
      *
-     * @throws Exception
+     * @throws \Exception
      */
     #[Route('/create', name: 'url_create', methods: ['GET', 'POST'])]
     public function create(Request $request): Response
@@ -250,7 +248,7 @@ class UrlController extends AbstractController
             throw $this->createAccessDeniedException('Invalid CSRF token.');
         }
 
-        $until = new DateTimeImmutable('+24 hours');
+        $until = new \DateTimeImmutable('+24 hours');
         $url->setBlockedUntil($until);
 
         $this->urlService->save($url);

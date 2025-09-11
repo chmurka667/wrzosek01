@@ -22,7 +22,6 @@ use Symfony\Bundle\SecurityBundle\Security;
  */
 class UserType extends AbstractType
 {
-
     /**
      * Constructor.
      *
